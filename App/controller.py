@@ -23,6 +23,7 @@
 import config as cf
 import model
 import csv
+import time
 
 
 """
@@ -31,7 +32,40 @@ El controlador se encarga de mediar entre la vista y el modelo.
 
 # Inicialización del Catálogo de libros
 
+def init():
+    """
+    Llama la funcion de inicializacion  del modelo.
+    """
+    # catalog es utilizado para interactuar con el modelo
+    catalog = model.newCatalog()
+    return catalog
+
+
+
 # Funciones para la carga de datos
+
+def loadData(catalog): 
+    """
+    Carga los datos de los archivos y cargar los datos en la
+    estructura de datos
+    """
+    StartTime=time.process_time()
+    loadUfos(catalog)
+    StopTime=time.process_time()
+    TimeMseg=(StopTime-StartTime)*1000
+    print()
+    print(f'La carga de datos tardó {TimeMseg} miliseg')
+    print()
+
+def loadUfos(catalog):
+    """
+    Carga los artistas archivo.  .
+    """
+    ufosfile = cf.data_dir + 'UFOS/UFOS-utf8-small.csv'
+    input_file = csv.DictReader(open(ufosfile, encoding='utf-8'))
+    for ufo in input_file:
+        model.addUFO(catalog, ufo)
+
 
 # Funciones de ordenamiento
 
