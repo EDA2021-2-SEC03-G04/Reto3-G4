@@ -65,8 +65,10 @@ def addUFO(catalog,UFO):
 
     #Crea el tree de UFOS por ciudades
     City=UFO['city']
+    entry=om.get(catalog['UFOSByCity'],City)
 
-    if om.contains(catalog['UFOSByCity'],City):
+
+    if not(entry is None): 
         listavieja=om.get(catalog['UFOSByCity'],City)
         lt.addLast(listavieja['value'],new)
         om.put(catalog['UFOSByCity'],City,listavieja['value'])
@@ -74,6 +76,10 @@ def addUFO(catalog,UFO):
         lista=lt.newList()
         lt.addLast(lista,new)
         om.put(catalog['UFOSByCity'],City,lista)
+
+    
+
+
 
 # Funciones para creacion de datos
 
@@ -98,15 +104,46 @@ def newUFO(datetime,city,state,country,shape,durationS,durationHM,comments,datep
 
 # Funciones de consulta
 
+def citiesSize(catalog):
+    """
+    Número de crimenes
+    """
+    return om.size(catalog['UFOSByCity'])
+
+
+def indexHeight(catalog):
+    """
+    Altura del arbol
+    """
+    return om.height(catalog['UFOSByCity'])
+
+
+def indexSize(catalog):
+    """
+    Numero de elementos en el indice
+    """
+    return om.size(catalog['UFOSByCity'])
+
+
+def minKey(catalog):
+    """
+    Llave mas pequena
+    """
+    return om.minKey(catalog['UFOSByCity'])
+
+
+def maxKey(catalog):
+    """
+    Llave mas grande
+    """
+    return om.maxKey(catalog['UFOSByCity'])
+
 # Funciones utilizadas para comparar elementos dentro de una lista
-def compareCities(UFO1,UFO2):
+def compareCities(city1,city2):
     '''
     Compara ciudades
     '''
-    ufo1=lt.getElement(UFO1,1)
-    ufo2=lt.getElement(UFO2,1)
-    city1=ufo1['city']
-    city2=ufo2['city']
+    
     if (city1.lower()==city2.lower()):
         return 0
     elif (city1.lower() > city2.lower()):

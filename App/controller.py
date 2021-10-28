@@ -70,3 +70,37 @@ def loadUfos(catalog):
 # Funciones de ordenamiento
 
 # Funciones de consulta sobre el catálogo
+
+def citiesSize(catalog):
+    """
+    Numero de crimenes leidos
+    """
+    return model.citiesSize(catalog)
+
+
+def indexHeight(catalog):
+    """
+    Altura del indice (arbol)
+    """
+    return model.indexHeight(catalog)
+
+
+def indexSize(catalog):
+    """
+    Numero de nodos en el arbol
+    """
+    return model.indexSize(catalog)
+
+
+def minKey(catalog):
+    """
+    La menor llave del arbol
+    """
+    return model.minKey(catalog)
+
+
+def maxKey(catalog):
+    """
+    La mayor llave del arbol
+    """
+    return model.maxKey(catalog)

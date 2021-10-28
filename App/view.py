@@ -37,7 +37,15 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2-(REQ1) Contar los avistamientos en una ciudad ")
+    print("3-(REQ2)  Contar los avistamientos por duración ")
+    print("4-(REQ3)  Contar avistamientos por Hora/Minutos del día")
+    print('5-(REQ4)  Contar los avistamientos en un rango de fechas')
+    print('6-(REQ5)  Contar los avistamientos de una Zona Geográfica')
+    print('7-(BONO)  Visualizar los avistamientos de una zona geográfica.')
+
+
+    
 
 catalog = None
 
@@ -50,8 +58,14 @@ while True:
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
         catalog = controller.init()
-        print("\nCargando información de crimenes ....")
+        print("\nCargando información de UFOS ....")
         controller.loadData(catalog)
+        print('Ciudades cargados: ' + str(controller.citiesSize(catalog)))
+        print('Altura del arbol: ' + str(controller.indexHeight(catalog)))
+        print('Elementos en el arbol: ' + str(controller.indexSize(catalog)))
+        print('Menor Llave: ' + str(controller.minKey(catalog)))
+        print('Mayor Llave: ' + str(controller.maxKey(catalog)))
+
 
     elif int(inputs[0]) == 2:
         pass
