@@ -32,6 +32,7 @@ from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.ADT import orderedmap as om
 from DISClib.ADT import map as m
+import datetime
 assert cf
 
 """
@@ -53,9 +54,15 @@ def newCatalog():
         
                 }
 
-    
+    #MAP para el REQ1, llaves ciudad, values: lista con avistamientos de esa ciudad
     catalog['UFOSByCity'] = om.newMap(omaptype='RBT',
                                       comparefunction=compareCities)
+
+    #MAP para el REQ2. llaves: duracion por segundos. values: lista de avistamientos con esa duración
+    catalog['UFOSBySeconds'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareDurationSegs)
+
+
     return catalog
 
 # Funciones para agregar informacion al catalogo
@@ -65,17 +72,45 @@ def addUFO(catalog,UFO):
 
     #Crea el tree de UFOS por ciudades
     City=UFO['city']
-    entry=om.get(catalog['UFOSByCity'],City)
+    entry1=om.get(catalog['UFOSByCity'],City)
+    #Date=UFO['datetime']
+    #Datetime=datetime.datetime.strptime(Date, '%Y-%m-%d %H:%M:%S')
+    createMAP(City,new,'UFOSByCity',entry1,catalog)
 
+
+    #Crea el tree de UFOS por duración en segs
+    Duration=UFO['duration (seconds)']
+    Duration=int(float(Duration))
+    entry2=om.get(catalog['UFOSBySeconds'],Duration)
+    createMAP(Duration,new,'UFOSBySeconds',entry2,catalog)
+
+
+
+
+
+
+
+
+
+def createMAP(key,value,mapname,entry,catalog): 
+    '''
+    Crea un mapa con llaves keys y values listas 
+    '''
 
     if not(entry is None): 
-        listavieja=om.get(catalog['UFOSByCity'],City)
-        lt.addLast(listavieja['value'],new)
-        om.put(catalog['UFOSByCity'],City,listavieja['value'])
+        listavieja=om.get(catalog[mapname],key)
+        #mapaviejo=om.get(catalog['UFOSByCity'],City)
+        #om.put(mapaviejo,City,new)
+        lt.addLast(listavieja['value'],value)
+        om.put(catalog[mapname],key,listavieja['value'])
+        #om.put(catalog['UFOSByCity'],City,mapaviejo)
     else: 
         lista=lt.newList()
-        lt.addLast(lista,new)
-        om.put(catalog['UFOSByCity'],City,lista)
+        #mapa=om.newMap(omaptype='RBT',comparefunction=compareDates)
+        lt.addLast(lista,value)
+        #om.put(mapa,Datetime,new)
+        #om.put(catalog['UFOSByCity'],City,mapa)
+        om.put(catalog[mapname],key,lista)
 
     
 
@@ -150,5 +185,35 @@ def compareCities(city1,city2):
         return 1
     else:
         return -1
+
+def compareDates(date1,date2): 
+    '''
+    Compara Fechas en formato AAAA-MM-DD HH:MM
+
+    '''
+    if (date1==date2):
+        return 0
+    elif (date1 > date2):
+        return 1
+    else:
+        return -1
+
+def compareDurationSegs(time1,time2): 
+    '''
+    Compara duraciones en tamaño int
+
+    '''
+    if (time1==time2):
+        return 0
+    elif (time1 > time2):
+        return 1
+    else:
+        return -1
+
+
+
+    
+
+
 
 # Funciones de ordenamiento
