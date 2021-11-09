@@ -330,4 +330,7 @@ def AvistamienCiudad(catalog,ciudad):
     principal = catalog['UFOSByCity']
     espesifico = om.get(principal, ciudad)["value"]
 
+
+    for x in range(lt.size(espesifico)):
+        print(lt.getElement(espesifico, x))
     #mrgsort.sort(espesifico, compareDates)
