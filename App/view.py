@@ -57,6 +57,23 @@ def printEspacio():
 
 catalog = None
 
+def printAvistamientosHHMM(size,Pequenos,Grandes,liminf,limsup):
+    print(f'Hay {size} Avistamientos en el rango [{liminf}-{limsup}] ')
+    printEspacio()
+    print('Top 3 avistamientos más antiguos:  ')
+    printEspacio()
+    i=1
+    for Elto in lt.iterator(Pequenos):
+        print('Avistamiento' + str(i) + ')--- con fecha:' + str(Elto['datetime']) + ' , país:' + str(Elto['country']) + ' y ciudad' + str(Elto['city']) + ', duración (segs):' + str(Elto['durationS']) + 'con forma :' + str(Elto['shape']))
+    
+    printEspacio()
+    print('Top 3 avistamientos más recientes:  ')
+    for Elto in lt.iterator(Grandes):
+        print('Avistamiento' + str(i) + ')--- con fecha:' + str(Elto['datetime']) + ' , país:' + str(Elto['country']) + ' y ciudad' + str(Elto['city']) + ', duración (segs):' + str(Elto['durationS']) + 'con forma :' + str(Elto['shape']))
+
+
+
+
 """
 Menu principal
 """
@@ -87,10 +104,11 @@ while True:
     
     elif int(inputs[0])==4:
         printEspacio()
-        
+
         liminf=input('Ingrese el limite inferior en formato HH:MM: ')
         limsup=input('Ingrese el límite superior en formateo HH:MM: ')
-        retorno=controller.AvistamientoHHMM(catalog,liminf,limsup)
+        size,Pequenos,Grandes=controller.AvistamientoHHMM(catalog,liminf,limsup)
+        printAvistamientosHHMM(size,Pequenos,Grandes,liminf,limsup)
 
         printEspacio()
 

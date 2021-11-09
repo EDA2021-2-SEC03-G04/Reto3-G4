@@ -35,6 +35,7 @@ from DISClib.ADT import orderedmap as om
 from DISClib.ADT import map as m
 import datetime
 assert cf
+import itertools
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -62,6 +63,12 @@ def newCatalog():
     #MAP para el REQ2. llaves: duracion por segundos. values: lista de avistamientos con esa duración
     catalog['UFOSBySeconds'] = om.newMap(omaptype='RBT',
                                       comparefunction=compareDurationSegs)
+    
+    #MAP para el REQ3. llaves: avistamiento por HH:MM. values: lista de avistamientos con esta fecha
+    catalog['UFOSByHHMM'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareHHMM)
+
+    
 
 
     return catalog
@@ -84,6 +91,13 @@ def addUFO(catalog,UFO):
     Duration=int(float(Duration))
     entry2=om.contains(catalog['UFOSBySeconds'],Duration)
     createMAP(Duration,new,'UFOSBySeconds',entry2,catalog)
+
+
+    #Crea el tree de UFOS por HHMM
+    Date1=UFO['datetime']
+    Date=transformHHMM(Date1)
+    entry3=om.contains(catalog['UFOSByHHMM'],Date)
+    createMAP(Date,new,'UFOSByHHMM',entry3,catalog)
 
 
 
@@ -178,10 +192,70 @@ def maxKey(catalog):
     return om.maxKey(catalog['UFOSByCity'])
 
 
-def AvistamientoHHMM(catalog,liminfd,limsupd):
-    return True
+def AvistamientoHHMM(catalog,liminf,limsup):
+    
+    map=catalog['UFOSByHHMM']
+    print('pasé1')
+    KeysInRange=om.values(map,liminf,limsup)
+    KeysInRangeFlat=lt.newList(cmpfunction=compareDates2)
+
+    for Element in lt.iterator(KeysInRange):
+        for Element2 in lt.iterator(Element):
+            lt.addLast(KeysInRangeFlat,Element2)
+
+    mrgsort.sort(KeysInRangeFlat,compareDates2)
+
+    size=lt.size(KeysInRangeFlat)
+
+    Pequenos=lt.newList()
+    Grandes=lt.newList()
+
+    for x in range(3):
+        if size > x:
+            lt.addLast(Pequenos,lt.getElement(KeysInRangeFlat,x))
+        else:
+            True
+    
+    for x in range(3):
+        if size-x > 0:
+            lt.addLast(Grandes,lt.getElement(KeysInRangeFlat,size-x))
+        else:
+            True
+
+    
+    return size,Pequenos,Grandes
+    
+
+    
+
+    
+    
+
+
+
+
+   
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+
+def transformHHMM(HMS):
+    '''
+    Transorma 6/01/2001 18:30 de string a 18:30 en datetime
+    Si es vacio le asigna la HHMM=00:00
+
+    '''
+    try:
+        date2=HMS.split(' ')
+        date3=date2[1]
+        HMDateTime = datetime.datetime.strptime(date3, '%H:%M')
+        return HMDateTime
+        
+    except:
+        HMDateTime=datetime.datetime.strptime('00:00', '%H:%M')
+        return HMDateTime
+        
+    
+
 def compareCities(city1,city2):
     '''
     Compara ciudades
@@ -206,6 +280,21 @@ def compareDates(date1,date2):
     else:
         return -1
 
+def compareDates2(Elto1,Elto2): 
+    '''
+    Compara Fechas en formato AAAA-MM-DD HH:MM
+
+    '''
+
+    date1=Elto1['datetime']
+    date2=Elto2['datetime']
+    if (date1==date2):
+        return 0
+    elif (date1 > date2):
+        return 1
+    else:
+        return -1
+
 def compareDurationSegs(time1,time2): 
     '''
     Compara duraciones en tamaño int
@@ -217,6 +306,19 @@ def compareDurationSegs(time1,time2):
         return 1
     else:
         return -1
+
+def compareHHMM(HM1,HM2):
+    '''
+    Compara duraciones en tamaño int
+
+    '''
+    if (HM1==HM2):
+        return 0
+    elif (HM1 > HM2):
+        return 1
+    else:
+        return -1
+
 
     
 

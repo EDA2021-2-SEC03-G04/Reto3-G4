@@ -74,12 +74,16 @@ def AvistamienCiudad(catalog,ciudad):
     return model.AvistamienCiudad(catalog,ciudad)
 
 def AvistamientoHHMM(catalog,liminf,limsup):
-    try:
-        liminfd =datetime.datetime.strptime(liminf, '%H:%M')
-        limsupd= datetime.datetime.strptime(limsup, '%H:%M')
-        return model.AvistamientoHHMM(catalog,liminfd,limsupd)
-    except:
-        print('Ingrese un formato de fecha adecuado.')
+    #try:
+        #liminfd =datetime.datetime.strptime(liminf, '%H:%M')
+        #limsupd= datetime.datetime.strptime(limsup, '%H:%M')
+        #return model.AvistamientoHHMM(catalog,liminfd,limsupd)
+    #except:
+        #print('Ingrese un formato de fecha adecuado.')
+    liminfd =datetime.datetime.strptime(liminf, '%H:%M')
+    limsupd= datetime.datetime.strptime(limsup, '%H:%M')
+    return model.AvistamientoHHMM(catalog,liminfd,limsupd)
+
 
 
 
