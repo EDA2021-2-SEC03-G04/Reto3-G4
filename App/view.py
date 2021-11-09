@@ -77,7 +77,22 @@ def printAvistamientosHHMM(size,Pequenos,Grandes,liminf,limsup):
         print('Avistamiento' + str(i) + ')--- con fecha:' + str(Elto['datetime']) + ' , país:' + str(Elto['country']) + ' y ciudad' + str(Elto['city']) + ', duración (segs):' + str(Elto['durationS']) + 'con forma :' + str(Elto['shape']))
         i=i+1
 
+def printAvistamienCiudad(datos, lugar):
+    print("para la ciudad " + lugar + " hay " + str(lt.size(datos)) + " avistamientos")
+    print()
+    print("Top 3 Primeros: ")
+    for x in range(3):
+        mom = x+1
+        ob = lt.getElement(datos, mom)
+        print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationHM"] + " duracion")
 
+    print()
+    print("Top 3 ultimos: ")
+
+    for x in range(3):
+        mom = x+1
+        ob = lt.getElement(datos, lt.size(datos)-x)
+        print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationHM"] + " duracion")
 
 
 """
@@ -104,6 +119,12 @@ while True:
 
         ciudad = input("De que ciudad deseas buscar: ")
         retorno = controller.AvistamienCiudad(catalog,ciudad)
+        print()
+        print()
+        print('='*42 + ' RESPUESTA REQ 2 ' + '='*42)
+        print()
+
+        printAvistamienCiudad(retorno, ciudad)
 
         printEspacio()
 

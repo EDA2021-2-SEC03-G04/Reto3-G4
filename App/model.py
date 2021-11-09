@@ -331,6 +331,14 @@ def compareHHMM(HM1,HM2):
     else:
         return -1
 
+def compByDateFormat(d1,d2):
+
+    d1 = d1['datetime'].split()
+    d1F = datetime.datetime.strptime(d1[0], "%Y-%m-%d")
+    d2 = d2['datetime'].split()
+    d2F = datetime.datetime.strptime(d2[0], "%Y-%m-%d")
+
+    return d1F < d2F
 
     
 
@@ -342,7 +350,6 @@ def AvistamienCiudad(catalog,ciudad):
     principal = catalog['UFOSByCity']
     espesifico = om.get(principal, ciudad)["value"]
 
+    mrgsort.sort(espesifico,compByDateFormat)
 
-    for x in range(lt.size(espesifico)):
-        print(lt.getElement(espesifico, x))
-    #mrgsort.sort(espesifico, compareDates)
+    return espesifico
