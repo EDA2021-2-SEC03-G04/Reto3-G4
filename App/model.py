@@ -193,9 +193,13 @@ def maxKey(catalog):
 
 
 def AvistamientoHHMM(catalog,liminf,limsup):
+
+    '''
+    Retorna la cantidad de avitamientos en el rango [liminf,limsup] y el top 3 
+    y más recientes y antiguos avistamientos en ese rango
+    '''
     
     map=catalog['UFOSByHHMM']
-    print('pasé1')
     KeysInRange=om.values(map,liminf,limsup)
     KeysInRangeFlat=lt.newList(cmpfunction=compareDates2)
 
@@ -224,6 +228,9 @@ def AvistamientoHHMM(catalog,liminf,limsup):
 
     
     return size,Pequenos,Grandes
+
+def AvistamientoAMD(catalog,liminf,limsup):
+    return True
     
 
     

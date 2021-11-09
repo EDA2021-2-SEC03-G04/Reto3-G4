@@ -84,6 +84,14 @@ def AvistamientoHHMM(catalog,liminf,limsup):
     limsupd= datetime.datetime.strptime(limsup, '%H:%M')
     return model.AvistamientoHHMM(catalog,liminfd,limsupd)
 
+def AvistamientoAMD(catalog,liminf,limsup):
+
+
+    liminfd=datetime.datetime.strptime(liminf,'%d/%m/%Y')
+    limsupd=datetime.datetime.strptime(limsup,'%d/%m/%Y')
+
+    return model.AvistamientoAMD(catalog,liminfd,limsupd)
+
 
 
 
