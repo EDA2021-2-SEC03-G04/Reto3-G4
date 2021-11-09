@@ -30,6 +30,7 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import mergesort as mrgsort
 from DISClib.ADT import orderedmap as om
 from DISClib.ADT import map as m
 import datetime
@@ -72,7 +73,7 @@ def addUFO(catalog,UFO):
 
     #Crea el tree de UFOS por ciudades
     City=UFO['city']
-    entry1=om.get(catalog['UFOSByCity'],City)
+    entry1=om.contains(catalog['UFOSByCity'],City)
     #Date=UFO['datetime']
     #Datetime=datetime.datetime.strptime(Date, '%Y-%m-%d %H:%M:%S')
     createMAP(City,new,'UFOSByCity',entry1,catalog)
@@ -81,7 +82,7 @@ def addUFO(catalog,UFO):
     #Crea el tree de UFOS por duración en segs
     Duration=UFO['duration (seconds)']
     Duration=int(float(Duration))
-    entry2=om.get(catalog['UFOSBySeconds'],Duration)
+    entry2=om.contains(catalog['UFOSBySeconds'],Duration)
     createMAP(Duration,new,'UFOSBySeconds',entry2,catalog)
 
 
@@ -97,12 +98,13 @@ def createMAP(key,value,mapname,entry,catalog):
     Crea un mapa con llaves keys y values listas 
     '''
 
-    if not(entry is None): 
-        listavieja=om.get(catalog[mapname],key)
+    if entry: 
+        listavieja=om.get(catalog[mapname],key)['value']
+        
         #mapaviejo=om.get(catalog['UFOSByCity'],City)
         #om.put(mapaviejo,City,new)
-        lt.addLast(listavieja['value'],value)
-        om.put(catalog[mapname],key,listavieja['value'])
+        lt.addLast(listavieja,value)
+        om.put(catalog[mapname],key,listavieja)
         #om.put(catalog['UFOSByCity'],City,mapaviejo)
     else: 
         lista=lt.newList()
@@ -134,6 +136,8 @@ def newUFO(datetime,city,state,country,shape,durationS,durationHM,comments,datep
     UFO['dateposted']=dateposted
     UFO['latitude']=latitude
     UFO['longituide']=longitude
+
+    return UFO
 
 
 
@@ -210,10 +214,14 @@ def compareDurationSegs(time1,time2):
     else:
         return -1
 
-
-
     
 
 
 
 # Funciones de ordenamiento
+
+def AvistamienCiudad(catalog,ciudad):
+    principal = catalog['UFOSByCity']
+    espesifico = om.get(principal, ciudad)["value"]
+
+    #mrgsort.sort(espesifico, compareDates)

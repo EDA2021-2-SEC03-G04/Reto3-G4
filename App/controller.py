@@ -69,6 +69,9 @@ def loadUfos(catalog):
 
 # Funciones de ordenamiento
 
+def AvistamienCiudad(catalog,ciudad):
+    return model.AvistamienCiudad(catalog,ciudad)
+
 # Funciones de consulta sobre el catálogo
 
 def citiesSize(catalog):

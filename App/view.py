@@ -45,6 +45,14 @@ def printMenu():
     print('7-(BONO)  Visualizar los avistamientos de una zona geográfica.')
 
 
+def printEspacio():
+    """
+    añade espacios entre funciones 
+    """
+
+    print("")
+    print("=" * 100)
+    print("")
     
 
 catalog = None
@@ -68,7 +76,14 @@ while True:
 
 
     elif int(inputs[0]) == 2:
-        pass
+        
+        printEspacio()
+
+        ciudad = input("De que ciudad deseas buscar: ")
+        retorno = controller.AvistamienCiudad(catalog,ciudad)
+
+        printEspacio()
+
 
     else:
         sys.exit(0)
