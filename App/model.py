@@ -202,6 +202,9 @@ def AvistamientoHHMM(catalog,liminf,limsup):
     map=catalog['UFOSByHHMM']
     KeysInRange=om.values(map,liminf,limsup)
     KeysInRangeFlat=lt.newList(cmpfunction=compareDates2)
+    print(KeysInRange)
+    print()
+    print(KeysInRangeFlat)
 
     for Element in lt.iterator(KeysInRange):
         for Element2 in lt.iterator(Element):
