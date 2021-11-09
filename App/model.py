@@ -177,6 +177,10 @@ def maxKey(catalog):
     """
     return om.maxKey(catalog['UFOSByCity'])
 
+
+def AvistamientoHHMM(catalog,liminfd,limsupd):
+    return True
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareCities(city1,city2):
     '''

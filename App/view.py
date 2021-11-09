@@ -84,6 +84,16 @@ while True:
 
         printEspacio()
 
+    
+    elif int(inputs[0])==4:
+        printEspacio()
+        
+        liminf=input('Ingrese el limite inferior en formato HH:MM: ')
+        limsup=input('Ingrese el límite superior en formateo HH:MM: ')
+        retorno=controller.AvistamientoHHMM(catalog,liminf,limsup)
+
+        printEspacio()
+
 
     else:
         sys.exit(0)
