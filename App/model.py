@@ -282,10 +282,42 @@ def AvistamientoAMD(catalog,liminf,limsup):
 
 
 
-    
+def AvistamienCiudad(catalog,ciudad):
+    principal = catalog['UFOSByCity']
+    espesifico = om.get(principal, ciudad)["value"]
+
+    mrgsort.sort(espesifico,compByDateFormat)
+
+    return espesifico
 
     
+def AvistamienDireccion(catalog, limInf, limSup):
+    principal = catalog['UFOSBySeconds']
+    retorno = lt.newList()
 
+    listaVal = [limInf]
+    val1 = limInf
+    val2 = limSup
+
+    while val1 < val2:
+        val1 += 1
+        listaVal.append(val1)
+    
+    for x in listaVal:
+
+        if om.contains(principal, float(x)):   
+
+            espesifico = om.get(principal, x)["value"]
+
+            for x in range(lt.size(espesifico)):
+
+                elemento = lt.getElement(espesifico, x+1)
+                lt.addLast(retorno, elemento)
+    
+    
+
+    return retorno
+    
     
     
 
@@ -404,10 +436,3 @@ def compByDateFormat(d1,d2):
 
 # Funciones de ordenamiento
 
-def AvistamienCiudad(catalog,ciudad):
-    principal = catalog['UFOSByCity']
-    espesifico = om.get(principal, ciudad)["value"]
-
-    mrgsort.sort(espesifico,compByDateFormat)
-
-    return espesifico

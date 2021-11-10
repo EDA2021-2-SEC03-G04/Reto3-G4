@@ -123,6 +123,26 @@ def printAvistamienCiudad(datos, lugar):
         ob = lt.getElement(datos, lt.size(datos)-x)
         print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationHM"] + " duracion")
 
+def printAvistamienDireccion(retorno, limInf, limSup):
+    
+    print("en el rango " + str(limInf) + " a " + str(limSup) + " hay " + str(lt.size(retorno)) + " avistamientos")
+    print()
+    print("Top 3 Primeros: ")
+
+    for x in range(3):
+        mom = x+1
+        ob = lt.getElement(retorno, mom)
+        print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationS"] + " duracion")
+    
+    print()
+    print("Top 3 Primeros: ")
+    for x in range(3):
+        mom = x+1
+        ob = lt.getElement(retorno, lt.size(retorno)-x)
+        print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationS"] + " duracion")
+    
+    
+
 
 """
 Menu principal
@@ -154,6 +174,23 @@ while True:
         print()
 
         printAvistamienCiudad(retorno, ciudad)
+
+        printEspacio()
+
+
+    elif int(inputs[0]) == 3:
+        
+        printEspacio()
+
+        limInf = float(input("Cual es el limite inferior en segundos?: "))
+        limSup = float(input("Cual es el limite superior en segundos?: "))
+        retorno = controller.AvistamienDireccion(catalog, limInf, limSup)
+        print()
+        print()
+        print('='*42 + ' RESPUESTA REQ 1 ' + '='*42)
+        print()
+
+        printAvistamienDireccion(retorno, limInf, limSup)
 
         printEspacio()
 

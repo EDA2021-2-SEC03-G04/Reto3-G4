@@ -62,7 +62,7 @@ def loadUfos(catalog):
     """
     Carga los artistas archivo.  .
     """
-    ufosfile = cf.data_dir + 'UFOS/UFOS-utf8-small.csv'
+    ufosfile = cf.data_dir + 'UFOS/UFOS-utf8-large.csv'
     input_file = csv.DictReader(open(ufosfile, encoding='utf-8'))
     for ufo in input_file:
         model.addUFO(catalog, ufo)
@@ -100,7 +100,9 @@ def AvistamientoDMA(catalog,liminf,limsup):
     return model.AvistamientoAMD(catalog,liminfd,limsupd)
 
 
+def AvistamienDireccion(catalog, limInf, limSup):
 
+    return model.AvistamienDireccion(catalog, limInf, limSup)
 
 # Funciones de consulta sobre el catálogo
 
