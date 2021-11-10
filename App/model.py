@@ -331,12 +331,23 @@ def AvistamienDireccion(catalog, limInf, limSup):
     
 def AvistamienCordenadas(catalog, LonglimInf, LonglimSup, LatlimInf, LatlimSup):
     principal = catalog["UFOSByLONG"]
+    retorno = lt.newList()
 
-    ValsRangoLong = om.values(principal, LonglimInf, LonglimSup)
+    KeysRangoLong = om.keys(principal, LonglimSup, LonglimInf)
 
-    print("carga doneeeeee")
+    for x in range(lt.size(KeysRangoLong)):
 
-    print(ValsRangoLong)
+        espesifico = om.get(principal,lt.getElement(KeysRangoLong, x+1))["value"]
+
+        for y in range(lt.size(espesifico)):
+
+            avis = lt.getElement(espesifico, y+1)
+
+            if round(float(avis["latitude"]), 2) > LatlimInf and round(float(avis["latitude"]), 2) < LatlimSup: 
+
+                lt.addLast(retorno, avis)
+
+    return retorno 
 
 
 

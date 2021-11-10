@@ -137,13 +137,30 @@ def printAvistamienDireccion(retorno, limInf, limSup):
         print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationS"] + " duracion")
     
     print()
-    print("Top 3 Primeros: ")
+    print("Top 3 Ultimos: ")
     for x in range(3):
         mom = x+1
         ob = lt.getElement(retorno[0], lt.size(retorno[0])-x)
         print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationS"] + " duracion")
     
-    
+def printAvistamienCordenadas(retorno):
+
+    print("En el rango dado se encontraron " + str(lt.size(retorno)) + " avistamientos")
+    print()
+    print("Top 5 Primeros: ")
+
+    for x in range(3):
+        mom = x+1
+        ob = lt.getElement(retorno, mom)
+        print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationS"] + " duracion, con la latitud " + ob["latitude"] + " y longitud " + ob["longituide"])                                                                                             
+
+    print()
+    print("Top 5 Ultimos: ")
+
+    for x in range(3):
+        mom = x+1
+        ob = lt.getElement(retorno, lt.size(retorno)-x)
+        print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationS"] + " duracion, con la latitud " + ob["latitude"] + " y longitud " + ob["longituide"])
 
 
 """
@@ -237,7 +254,7 @@ while True:
         print('='*42 + ' RESPUESTA REQ 5 ' + '='*42)
         print()
 
-        #printAvistamienCordenadas(retorno, limInf, limSup)
+        printAvistamienCordenadas(retorno)
 
         printEspacio() 
         
