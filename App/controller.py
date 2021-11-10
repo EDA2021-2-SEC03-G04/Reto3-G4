@@ -80,9 +80,7 @@ def AvistamientoHHMM(catalog,liminf,limsup):
         return model.AvistamientoHHMM(catalog,liminfd,limsupd)
     except:
         print('Ingrese un formato de fecha adecuado.')
-    #liminfd =datetime.datetime.strptime(liminf, '%H:%M')
-    #limsupd= datetime.datetime.strptime(limsup, '%H:%M')
-    #return model.AvistamientoHHMM(catalog,liminfd,limsupd)
+    
 
 def AvistamientoDMA(catalog,liminf,limsup):
 

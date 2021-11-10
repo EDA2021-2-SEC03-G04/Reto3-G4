@@ -212,33 +212,170 @@ def AvistamientoHHMM(catalog,liminf,limsup):
     '''
     
     map=catalog['UFOSByHHMM']
-    #print(map)
+   
     KeysInRange=om.values(map,liminf,limsup)
-    KeysInRangeFlat=lt.newList(cmpfunction=compByDateFormat)
+
+
+    #Iniciliza las fechas máximss y sus correspondientes ufos y las fechas mínimas con sus correspondientes ufos
+
+    maxC1=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+    maxC2=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+    maxC3=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+    maxC4=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+    maxC5=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+
+    eltoC1={'datetime':'','city':'','state':'','country':'','shape':'','durationS':'','durationHM':''
+    ,'comments':'','dateposted':'','latitude':'','longitude':''}
+
+
+    eltoC2=eltoC3=eltoC4=eltoC5=eltoP1=eltoP2=eltoP3=eltoP4=eltoP5=eltoC1
+
+    maxP1=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
+    maxP2=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
+    maxP3=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
+    maxP4=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
+    maxP5=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
     
 
+    i=0
     for Element in lt.iterator(KeysInRange):
+        
         for Element2 in lt.iterator(Element):
-            lt.addLast(KeysInRangeFlat,Element2)
+            i=i+1
+            Date=transformDMA(Element2['datetime'])
+            
 
-    mrgsort.sort(KeysInRangeFlat,compByDateFormat)
+            if Date>maxC1:
+                eltoC5=eltoC4
+                maxC5=maxC4
 
-    size=lt.size(KeysInRangeFlat)
+                eltoC4=eltoC3
+                maxC4=maxC3
 
+                eltoC3=eltoC2
+                maxC3=maxC2
+
+                eltoC2=eltoC1
+                maxC2=maxC1
+                
+
+                eltoC1=Element2
+                maxC1=Date
+       
+            elif Date>maxC2:
+
+                eltoC5=eltoC4
+                maxC5=maxC4
+
+                eltoC4=eltoC3
+                maxC4=maxC3
+
+                eltoC3=eltoC2
+                maxC3=maxC2
+
+
+
+                eltoC2=Element2
+                maxC2=Date
+            elif Date>maxC3:
+
+                eltoC5=eltoC4
+                maxC5=maxC4
+
+                eltoC4=eltoC3
+                maxC4=maxC3
+
+
+                eltoC3=Element2
+                maxC3=Date
+            elif Date>maxC4:
+                eltoC4=Element2
+                maxC4=Date
+            elif Date>maxC5:
+                eltoC5=Element2
+                maxC5=Date
+
+
+
+
+            if Date < maxP1:
+
+                eltoP5=eltoP4
+                maxP5=maxP4
+
+                eltoP4=eltoP3
+                maxP4=maxP3
+
+                eltoP3=eltoP2
+                maxP3=maxP2
+
+                eltoP2=eltoP1
+                maxP2=maxP1
+
+
+                eltoP1=Element2
+                maxP1=Date
+
+            elif Date<maxP2:
+                eltoP5=eltoP4
+                maxP5=maxP4
+
+                eltoP4=eltoP3
+                maxP4=maxP3
+
+                eltoP3=eltoP2
+                maxP3=maxP2
+
+
+
+                eltoP2=Element2
+                maxP2=Date
+            elif Date<maxP3:
+
+                eltoP5=eltoP4
+                maxP5=maxP4
+
+                eltoP4=eltoP3
+                maxP4=maxP3
+
+
+
+                eltoP3=Element2
+                maxP3=Date
+            elif Date<maxP4:
+
+                eltoP5=eltoP4
+                maxP5=maxP4
+
+
+
+                eltoP4=Element2
+                maxP4=Date
+            elif Date<maxP5:
+
+                eltoP5=Element2
+                maxP5=Date
+
+    #Se guardan en listas las obras con precio máximo y las obras con fecha mínima
     Pequenos=lt.newList()
     Grandes=lt.newList()
+    lt.addLast(Pequenos,eltoC1)
+    lt.addLast(Pequenos,eltoC2)
+    lt.addLast(Pequenos,eltoC3)
+    lt.addLast(Pequenos,eltoC4)
+    lt.addLast(Pequenos,eltoC5)
 
-    for x in range(3):
-        if size > x:
-            lt.addLast(Pequenos,lt.getElement(KeysInRangeFlat,x))
-        else:
-            True
+    lt.addLast(Grandes,eltoP1)
+    lt.addLast(Grandes,eltoP2)
+    lt.addLast(Grandes,eltoP3)
+    lt.addLast(Grandes,eltoP4)
+    lt.addLast(Grandes,eltoP5)   
+
+           
+    print('Estoy haciendo sort')
     
-    for x in range(3):
-        if size-x > 0:
-            lt.addLast(Grandes,lt.getElement(KeysInRangeFlat,size-x))
-        else:
-            True
+    size=i
+
 
     
     return size,Pequenos,Grandes
@@ -253,36 +390,176 @@ def AvistamientoAMD(catalog,liminf,limsup):
     
     map=catalog['UFOSByDMA']
     KeysInRange=om.values(map,liminf,limsup)
-    KeysInRangeFlat=lt.newList(cmpfunction=compByDateFormat)
+    #KeysInRangeFlat=lt.newList(cmpfunction=compByDateFormat)
 
     oldestKey=om.minKey(map)
     oldestElement=om.get(map,oldestKey)['value']
     oldestSize=lt.size(oldestElement)
+
+    #Iniciliza las fechas máximss y sus correspondientes ufos y las fechas mínimas con sus correspondientes ufos
+
+    maxC1=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+    maxC2=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+    maxC3=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+    maxC4=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+    maxC5=datetime.datetime.strptime('1700-03-21', "%Y-%m-%d")
+
+    eltoC1={'datetime':'','city':'','state':'','country':'','shape':'','durationS':'','durationHM':''
+    ,'comments':'','dateposted':'','latitude':'','longitude':''}
+
+
+    eltoC2=eltoC3=eltoC4=eltoC5=eltoP1=eltoP2=eltoP3=eltoP4=eltoP5=eltoC1
+
+    maxP1=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
+    maxP2=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
+    maxP3=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
+    maxP4=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
+    maxP5=datetime.datetime.strptime('2021-03-21', "%Y-%m-%d")
     
 
+    i=0
     for Element in lt.iterator(KeysInRange):
+        
         for Element2 in lt.iterator(Element):
-            lt.addLast(KeysInRangeFlat,Element2)
+            i=i+1
+            Date=transformDMA(Element2['datetime'])
+            
 
-    mrgsort.sort(KeysInRangeFlat,compByDateFormat)
+            if Date>maxC1:
+                eltoC5=eltoC4
+                maxC5=maxC4
 
-    size=lt.size(KeysInRangeFlat)
+                eltoC4=eltoC3
+                maxC4=maxC3
 
+                eltoC3=eltoC2
+                maxC3=maxC2
+
+                eltoC2=eltoC1
+                maxC2=maxC1
+                
+
+                eltoC1=Element2
+                maxC1=Date
+       
+            elif Date>maxC2:
+
+                eltoC5=eltoC4
+                maxC5=maxC4
+
+                eltoC4=eltoC3
+                maxC4=maxC3
+
+                eltoC3=eltoC2
+                maxC3=maxC2
+
+
+
+                eltoC2=Element2
+                maxC2=Date
+            elif Date>maxC3:
+
+                eltoC5=eltoC4
+                maxC5=maxC4
+
+                eltoC4=eltoC3
+                maxC4=maxC3
+
+
+                eltoC3=Element2
+                maxC3=Date
+            elif Date>maxC4:
+                eltoC4=Element2
+                maxC4=Date
+            elif Date>maxC5:
+                eltoC5=Element2
+                maxC5=Date
+
+
+
+
+            if Date < maxP1:
+
+                eltoP5=eltoP4
+                maxP5=maxP4
+
+                eltoP4=eltoP3
+                maxP4=maxP3
+
+                eltoP3=eltoP2
+                maxP3=maxP2
+
+                eltoP2=eltoP1
+                maxP2=maxP1
+
+
+                eltoP1=Element2
+                maxP1=Date
+
+            elif Date<maxP2:
+                eltoP5=eltoP4
+                maxP5=maxP4
+
+                eltoP4=eltoP3
+                maxP4=maxP3
+
+                eltoP3=eltoP2
+                maxP3=maxP2
+
+
+
+                eltoP2=Element2
+                maxP2=Date
+            elif Date<maxP3:
+
+                eltoP5=eltoP4
+                maxP5=maxP4
+
+                eltoP4=eltoP3
+                maxP4=maxP3
+
+
+
+                eltoP3=Element2
+                maxP3=Date
+            elif Date<maxP4:
+
+                eltoP5=eltoP4
+                maxP5=maxP4
+
+
+
+                eltoP4=Element2
+                maxP4=Date
+            elif Date<maxP5:
+
+                eltoP5=Element2
+                maxP5=Date
+
+    #Se guardan en listas las obras con precio máximo y las obras con fecha mínima
     Pequenos=lt.newList()
     Grandes=lt.newList()
+    lt.addLast(Pequenos,eltoC1)
+    lt.addLast(Pequenos,eltoC2)
+    lt.addLast(Pequenos,eltoC3)
+    lt.addLast(Pequenos,eltoC4)
+    lt.addLast(Pequenos,eltoC5)
 
-    for x in range(3):
-        if size > x:
-            lt.addLast(Pequenos,lt.getElement(KeysInRangeFlat,x))
-        else:
-            True
+    lt.addLast(Grandes,eltoP1)
+    lt.addLast(Grandes,eltoP2)
+    lt.addLast(Grandes,eltoP3)
+    lt.addLast(Grandes,eltoP4)
+    lt.addLast(Grandes,eltoP5)   
+
+           
+    print('Estoy haciendo sort')
     
-    for x in range(3):
-        if size-x > 0:
-            lt.addLast(Grandes,lt.getElement(KeysInRangeFlat,size-x))
-        else:
-            True
+    size=i
 
+
+    
+
+    
     
     return oldestSize,oldestKey,size,Pequenos,Grandes
 
@@ -365,11 +642,11 @@ def transformHHMM(HMS):
     try:
         date2=HMS.split(' ')
         date3=date2[1]
-        HMDateTime = datetime.datetime.strptime(date3, '%H:%M')
+        HMDateTime = datetime.datetime.strptime(date3, '%H:%M:%S')
         return HMDateTime
         
     except:
-        HMDateTime=datetime.datetime.strptime('00:00', '%H:%M')
+        HMDateTime=datetime.datetime.strptime('00:00:00', '%H:%M:%S')
         return HMDateTime
 
 def transformDMA(Date):
@@ -451,13 +728,13 @@ def compareHHMM(HM1,HM2):
     Compara duraciones en tamaño int
 
     '''
-    #if (HM1==HM2):
-        #return 0
-    #elif (HM1 > HM2):
-        #return 1
-    #else:
-        #return -1
-    return HM1<HM2
+    if (HM1==HM2):
+        return 0
+    elif (HM1 > HM2):
+        return 1
+    else:
+        return -1
+    #return HM1<HM2
 
 def compByDateFormat(d1,d2):
 

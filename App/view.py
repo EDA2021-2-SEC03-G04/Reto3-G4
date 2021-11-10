@@ -64,14 +64,14 @@ def printAvistamientosHHMM(size,Pequenos,Grandes,liminf,limsup):
     print()
     print(f'Hay {size} Avistamientos en el rango [{liminf}-{limsup}] ')
     print()
-    print('Top 3 avistamientos más antiguos:  ')
+    print('Top 3 avistamientos más recientes:  ')
     print()
     i=1
     for Elto in lt.iterator(Pequenos):
         print('Avistamiento ' + str(i) + ')--- con fecha: ' + str(Elto['datetime']) + ' , país: ' + str(Elto['country']) + ' y ciudad: ' + str(Elto['city']) + ', duración (segs): ' + str(Elto['durationS']) + 'con forma : ' + str(Elto['shape']))
         i=i+1
     print()
-    print('Top 3 avistamientos más recientes:  ')
+    print('Top 3 avistamientos más antiguos:  ')
     print()
     i=1
     for Elto in lt.iterator(Grandes):
@@ -82,16 +82,16 @@ def printAvistamientosHHMM(size,Pequenos,Grandes,liminf,limsup):
 
 def printAvistamientosDMA(oldestSize,oldestKey,size,Pequenos,Grandes,liminf,limsup):
     print()
-    print(f'Hay {size} Avistamientos en el rango [{liminf}-{limsup}] ')
+    print(f'Hay {size} Avistamientos en el rango [{liminf} , {limsup}] ')
     print()
-    print('Top 3 avistamientos más antiguos:  ')
+    print('Top 3 avistamientos más recientes:  ')
     print()
     i=1
     for Elto in lt.iterator(Pequenos):
         print('Avistamiento ' + str(i) + ')--- con fecha: ' + str(Elto['datetime']) + ' , país: ' + str(Elto['country']) + ' y ciudad: ' + str(Elto['city']) + ', duración (segs): ' + str(Elto['durationS']) + 'con forma : ' + str(Elto['shape']))
         i=i+1
     print()
-    print('Top 3 avistamientos más recientes:  ')
+    print('Top 3 avistamientos más antiguos:  ')
     print()
     i=1
     for Elto in lt.iterator(Grandes):
