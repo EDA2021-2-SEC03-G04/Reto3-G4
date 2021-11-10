@@ -125,20 +125,22 @@ def printAvistamienCiudad(datos, lugar):
 
 def printAvistamienDireccion(retorno, limInf, limSup):
     
-    print("en el rango " + str(limInf) + " a " + str(limSup) + " hay " + str(lt.size(retorno)) + " avistamientos")
+    print("en el rango " + str(limInf) + " a " + str(limSup) + " hay " + str(lt.size(retorno[0])) + " avistamientos")
+    print()
+    print("La mayor duracion es " + str(retorno[1][0]) + " con " + str(retorno[1][1]) + " avistamientos")
     print()
     print("Top 3 Primeros: ")
 
     for x in range(3):
         mom = x+1
-        ob = lt.getElement(retorno, mom)
+        ob = lt.getElement(retorno[0], mom)
         print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationS"] + " duracion")
     
     print()
     print("Top 3 Primeros: ")
     for x in range(3):
         mom = x+1
-        ob = lt.getElement(retorno, lt.size(retorno)-x)
+        ob = lt.getElement(retorno[0], lt.size(retorno[0])-x)
         print("El dia " + ob["datetime"] + " en la ciudad de " + ob["city"] + " EN el estado de " + ob["state"] + " EN la ciudad " + ob["country"] + " suirgio un avistamiento de " + ob["shape"] + " forma y " + ob["durationS"] + " duracion")
     
     
@@ -187,7 +189,7 @@ while True:
         retorno = controller.AvistamienDireccion(catalog, limInf, limSup)
         print()
         print()
-        print('='*42 + ' RESPUESTA REQ 1 ' + '='*42)
+        print('='*42 + ' RESPUESTA REQ 2 ' + '='*42)
         print()
 
         printAvistamienDireccion(retorno, limInf, limSup)
@@ -220,7 +222,24 @@ while True:
         printAvistamientosDMA(oldestSize,oldestkey,size,Pequenos,Grandes,liminf,limsup)
 
 
+    elif int(inputs[0]) == 6:
         
+        printEspacio()
+
+        LonglimInf = float(input("Cual es el limite inferior de la longitud?: "))
+        LonglimSup = float(input("Cual es el limite superior de la longitud?: "))
+        print()
+        LatlimInf = float(input("Cual es el limite inferior de la latitud?: "))
+        LatlimSup = float(input("Cual es el limite superior de la latitud?: "))
+        retorno = controller.AvistamienCordenadas(catalog, LonglimInf, LonglimSup, LatlimInf, LatlimSup)
+        print()
+        print()
+        print('='*42 + ' RESPUESTA REQ 5 ' + '='*42)
+        print()
+
+        #printAvistamienCordenadas(retorno, limInf, limSup)
+
+        printEspacio() 
         
 
 

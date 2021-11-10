@@ -68,6 +68,8 @@ def newCatalog():
     catalog['UFOSByHHMM'] = om.newMap(omaptype='RBT',
                                       comparefunction=compareHHMM)
     catalog['UFOSByDMA']=om.newMap(omaptype='RBT',comparefunction=compareDates)
+
+    catalog['UFOSByLONG']=om.newMap(omaptype='RBT',comparefunction=compareLong)
     
 
 
@@ -106,6 +108,10 @@ def addUFO(catalog,UFO):
     entry4=om.contains(catalog['UFOSByDMA'],Date22)
     createMAP(Date22,new,'UFOSByDMA',entry4,catalog)
 
+    #crea el tree de UFOS por longitud
+    long1=round(float(UFO["longitude"]),2)
+    entry5=om.contains(catalog['UFOSByLONG'],long1)
+    createMAP(long1,new,'UFOSByLONG',entry5,catalog)
 
 
 
@@ -299,6 +305,10 @@ def AvistamienDireccion(catalog, limInf, limSup):
     val1 = limInf
     val2 = limSup
 
+    maximoLL = om.maxKey(principal)
+    maximoComp = om.get(principal, maximoLL)["value"]
+    maximoCant = lt.size(maximoComp)
+
     while val1 < val2:
         val1 += 1
         listaVal.append(val1)
@@ -316,10 +326,17 @@ def AvistamienDireccion(catalog, limInf, limSup):
     
     
 
-    return retorno
+    return [retorno, [maximoLL, maximoCant]]
     
     
-    
+def AvistamienCordenadas(catalog, LonglimInf, LonglimSup, LatlimInf, LatlimSup):
+    principal = catalog["UFOSByLONG"]
+
+    ValsRangoLong = om.values(principal, LonglimInf, LonglimSup)
+
+    print("carga doneeeeee")
+
+    print(ValsRangoLong)
 
 
 
@@ -394,7 +411,17 @@ def compareDates(date1,date2):
     else:
         return -1
 
+def compareLong(long1,long2): 
+    '''
+    Compara longitudes 
 
+    '''
+    if (long1==long2):
+        return 0
+    elif (long1 > long2):
+        return 1
+    else:
+        return -1
 
 def compareDurationSegs(time1,time2): 
     '''

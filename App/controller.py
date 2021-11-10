@@ -104,6 +104,10 @@ def AvistamienDireccion(catalog, limInf, limSup):
 
     return model.AvistamienDireccion(catalog, limInf, limSup)
 
+def AvistamienCordenadas(catalog, LonglimInf, LonglimSup, LatlimInf, LatlimSup):
+
+    return model.AvistamienCordenadas(catalog, LonglimInf, LonglimSup, LatlimInf, LatlimSup)
+
 # Funciones de consulta sobre el catálogo
 
 def citiesSize(catalog):
