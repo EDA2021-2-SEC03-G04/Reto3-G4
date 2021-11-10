@@ -67,7 +67,7 @@ def newCatalog():
     #MAP para el REQ3. llaves: avistamiento por HH:MM. values: lista de avistamientos con esta fecha
     catalog['UFOSByHHMM'] = om.newMap(omaptype='RBT',
                                       comparefunction=compareHHMM)
-
+    catalog['UFOSByDMA']=om.newMap(omaptype='RBT',comparefunction=compareDates)
     
 
 
@@ -95,10 +95,16 @@ def addUFO(catalog,UFO):
 
     #Crea el tree de UFOS por HHMM
     Date1=UFO['datetime']
-    Date=transformHHMM(Date1)
-    entry3=om.contains(catalog['UFOSByHHMM'],Date)
-    createMAP(Date,new,'UFOSByHHMM',entry3,catalog)
+    Date11=transformHHMM(Date1)
+    entry3=om.contains(catalog['UFOSByHHMM'],Date11)
+    createMAP(Date11,new,'UFOSByHHMM',entry3,catalog)
 
+
+    #Crea el tree de UFOS por DMA
+    Date2=UFO['datetime']
+    Date22=transformDMA(Date2)
+    entry4=om.contains(catalog['UFOSByDMA'],Date22)
+    createMAP(Date22,new,'UFOSByDMA',entry4,catalog)
 
 
 
@@ -201,18 +207,15 @@ def AvistamientoHHMM(catalog,liminf,limsup):
     
     map=catalog['UFOSByHHMM']
     #print(map)
-    print(om.get(map,transformHHMM('29/12/2008 18:05')))
     KeysInRange=om.values(map,liminf,limsup)
-    KeysInRangeFlat=lt.newList(cmpfunction=compareDates2)
-    print(KeysInRange)
-    print()
-    print(KeysInRangeFlat)
+    KeysInRangeFlat=lt.newList(cmpfunction=compByDateFormat)
+    
 
     for Element in lt.iterator(KeysInRange):
         for Element2 in lt.iterator(Element):
             lt.addLast(KeysInRangeFlat,Element2)
 
-    mrgsort.sort(KeysInRangeFlat,compareDates2)
+    mrgsort.sort(KeysInRangeFlat,compByDateFormat)
 
     size=lt.size(KeysInRangeFlat)
 
@@ -235,7 +238,50 @@ def AvistamientoHHMM(catalog,liminf,limsup):
     return size,Pequenos,Grandes
 
 def AvistamientoAMD(catalog,liminf,limsup):
-    return True
+
+
+    '''
+    Retorna la cantidad de avitamientos en el rango [liminf,limsup] y el top 3 
+    y más recientes y antiguos avistamientos en ese rango
+    '''
+    
+    map=catalog['UFOSByDMA']
+    KeysInRange=om.values(map,liminf,limsup)
+    KeysInRangeFlat=lt.newList(cmpfunction=compByDateFormat)
+
+    oldestKey=om.minKey(map)
+    oldestElement=om.get(map,oldestKey)['value']
+    oldestSize=lt.size(oldestElement)
+    
+
+    for Element in lt.iterator(KeysInRange):
+        for Element2 in lt.iterator(Element):
+            lt.addLast(KeysInRangeFlat,Element2)
+
+    mrgsort.sort(KeysInRangeFlat,compByDateFormat)
+
+    size=lt.size(KeysInRangeFlat)
+
+    Pequenos=lt.newList()
+    Grandes=lt.newList()
+
+    for x in range(3):
+        if size > x:
+            lt.addLast(Pequenos,lt.getElement(KeysInRangeFlat,x))
+        else:
+            True
+    
+    for x in range(3):
+        if size-x > 0:
+            lt.addLast(Grandes,lt.getElement(KeysInRangeFlat,size-x))
+        else:
+            True
+
+    
+    return oldestSize,oldestKey,size,Pequenos,Grandes
+
+
+
     
 
     
@@ -265,6 +311,30 @@ def transformHHMM(HMS):
     except:
         HMDateTime=datetime.datetime.strptime('00:00', '%H:%M')
         return HMDateTime
+
+def transformDMA(Date):
+    '''
+    Transorma 6/01/2001 18:30 de string a 06/01/2001 en datetime
+    Si es vacio le asigna la DMA=2022/11/21
+
+    '''
+
+    
+
+    try:
+        date2=Date.split()
+        date3=date2[0]
+        
+        DMADateTime = datetime.datetime.strptime(date3, "%Y-%m-%d")
+        
+        return DMADateTime
+        
+    except:
+        
+        DMADateTime=datetime.datetime.strptime('2022/11/21',"%Y-%m-%d")
+        
+        return DMADateTime
+
         
     
 
@@ -292,20 +362,7 @@ def compareDates(date1,date2):
     else:
         return -1
 
-def compareDates2(Elto1,Elto2): 
-    '''
-    Compara Fechas en formato AAAA-MM-DD HH:MM
 
-    '''
-
-    date1=Elto1['datetime']
-    date2=Elto2['datetime']
-    if (date1==date2):
-        return 0
-    elif (date1 > date2):
-        return 1
-    else:
-        return -1
 
 def compareDurationSegs(time1,time2): 
     '''
@@ -324,12 +381,13 @@ def compareHHMM(HM1,HM2):
     Compara duraciones en tamaño int
 
     '''
-    if (HM1==HM2):
-        return 0
-    elif (HM1 > HM2):
-        return 1
-    else:
-        return -1
+    #if (HM1==HM2):
+        #return 0
+    #elif (HM1 > HM2):
+        #return 1
+    #else:
+        #return -1
+    return HM1<HM2
 
 def compByDateFormat(d1,d2):
 

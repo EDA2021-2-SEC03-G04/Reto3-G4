@@ -62,7 +62,7 @@ def loadUfos(catalog):
     """
     Carga los artistas archivo.  .
     """
-    ufosfile = cf.data_dir + 'UFOS/UFOS-utf8-large.csv'
+    ufosfile = cf.data_dir + 'UFOS/UFOS-utf8-small.csv'
     input_file = csv.DictReader(open(ufosfile, encoding='utf-8'))
     for ufo in input_file:
         model.addUFO(catalog, ufo)
@@ -74,21 +74,28 @@ def AvistamienCiudad(catalog,ciudad):
     return model.AvistamienCiudad(catalog,ciudad)
 
 def AvistamientoHHMM(catalog,liminf,limsup):
-    #try:
-        #liminfd =datetime.datetime.strptime(liminf, '%H:%M')
-        #limsupd= datetime.datetime.strptime(limsup, '%H:%M')
-        #return model.AvistamientoHHMM(catalog,liminfd,limsupd)
-    #except:
-        #print('Ingrese un formato de fecha adecuado.')
-    liminfd =datetime.datetime.strptime(liminf, '%H:%M')
-    limsupd= datetime.datetime.strptime(limsup, '%H:%M')
-    return model.AvistamientoHHMM(catalog,liminfd,limsupd)
+    try:
+        liminfd =datetime.datetime.strptime(liminf, '%H:%M')
+        limsupd= datetime.datetime.strptime(limsup, '%H:%M')
+        return model.AvistamientoHHMM(catalog,liminfd,limsupd)
+    except:
+        print('Ingrese un formato de fecha adecuado.')
+    #liminfd =datetime.datetime.strptime(liminf, '%H:%M')
+    #limsupd= datetime.datetime.strptime(limsup, '%H:%M')
+    #return model.AvistamientoHHMM(catalog,liminfd,limsupd)
 
-def AvistamientoAMD(catalog,liminf,limsup):
+def AvistamientoDMA(catalog,liminf,limsup):
+
+    liminf2=liminf.split('-')
+    limsup2=limsup.split('-')
+    liminf3=str(str(liminf2[2])+'/'+str(liminf2[1])+'/'+str(liminf2[0]))
+    limsup3=str(str(limsup2[2])+'/'+str(limsup2[1])+'/'+str(limsup2[0]))
 
 
-    liminfd=datetime.datetime.strptime(liminf,'%d/%m/%Y')
-    limsupd=datetime.datetime.strptime(limsup,'%d/%m/%Y')
+    liminfd=datetime.datetime.strptime(liminf,"%Y-%m-%d")
+    limsupd=datetime.datetime.strptime(limsup,"%Y-%m-%d")
+    print(liminf3)
+    print(limsup3)
 
     return model.AvistamientoAMD(catalog,liminfd,limsupd)
 
