@@ -62,7 +62,7 @@ def loadUfos(catalog):
     """
     Carga los artistas archivo.  .
     """
-    ufosfile = cf.data_dir + 'UFOS/UFOS-utf8-large.csv'
+    ufosfile = cf.data_dir + 'UFOS/UFOS-utf8-30pct.csv'
     input_file = csv.DictReader(open(ufosfile, encoding='utf-8'))
     for ufo in input_file:
         model.addUFO(catalog, ufo)

@@ -210,9 +210,9 @@ def AvistamientoHHMM(catalog,liminf,limsup):
     Retorna la cantidad de avitamientos en el rango [liminf,limsup] y el top 3 
     y más recientes y antiguos avistamientos en ese rango
     '''
-    
+    #Toma el map ordenado por HHMM
     map=catalog['UFOSByHHMM']
-   
+    #Extrae las llaves en el rango lim inf, lim sup
     KeysInRange=om.values(map,liminf,limsup)
 
 
@@ -356,7 +356,7 @@ def AvistamientoHHMM(catalog,liminf,limsup):
                 eltoP5=Element2
                 maxP5=Date
 
-    #Se guardan en listas las obras con precio máximo y las obras con fecha mínima
+    #Se guardan en listas los UFOS con fecha máxima y lOS ufos  con fecha mínima
     Pequenos=lt.newList()
     Grandes=lt.newList()
     lt.addLast(Pequenos,eltoC1)
@@ -371,12 +371,7 @@ def AvistamientoHHMM(catalog,liminf,limsup):
     lt.addLast(Grandes,eltoP4)
     lt.addLast(Grandes,eltoP5)   
 
-           
-    print('Estoy haciendo sort')
-    
     size=i
-
-
     
     return size,Pequenos,Grandes
 
@@ -552,7 +547,7 @@ def AvistamientoAMD(catalog,liminf,limsup):
     lt.addLast(Grandes,eltoP5)   
 
            
-    print('Estoy haciendo sort')
+    
     
     size=i
 
@@ -566,22 +561,31 @@ def AvistamientoAMD(catalog,liminf,limsup):
 
 
 def AvistamienCiudad(catalog,ciudad):
+    '''
+    Devuelve todos los avistamientos de una ciudad y los organiza por fecha
+    '''
+    #Map ordenado por ciudades
     principal = catalog['UFOSByCity']
-    espesifico = om.get(principal, ciudad)["value"]
+    #Extrae la llave de la ciudad que se está buscando
+    especifico = om.get(principal, ciudad)["value"]
+    #Ordena los avistamientos por fecha 
+    mrgsort.sort(especifico,compByDateFormat)
 
-    mrgsort.sort(espesifico,compByDateFormat)
-
-    return espesifico
+    return especifico
 
     
 def AvistamienDireccion(catalog, limInf, limSup):
+    '''
+    Retorna los avistamientos por duración [liminf,limsup] y los ordena por esa duración. 
+    '''
+    #Toma el map ordenado por duración
     principal = catalog['UFOSBySeconds']
     retorno = lt.newList()
 
     listaVal = [limInf]
     val1 = limInf
     val2 = limSup
-
+    #Toma la llave máxima del map y su value y cuantos avistamientos tiene
     maximoLL = om.maxKey(principal)
     maximoComp = om.get(principal, maximoLL)["value"]
     maximoCant = lt.size(maximoComp)
@@ -589,7 +593,8 @@ def AvistamienDireccion(catalog, limInf, limSup):
     while val1 < val2:
         val1 += 1
         listaVal.append(val1)
-    
+    #Recorre las duraciones entre limInf y limSup  y toma sus }
+    # avistamientos para añadirlos a retorno (Ya quedan ordenados)
     for x in listaVal:
 
         if om.contains(principal, float(x)):   
@@ -607,6 +612,7 @@ def AvistamienDireccion(catalog, limInf, limSup):
     
     
 def AvistamienCordenadas(catalog, LonglimInf, LonglimSup, LatlimInf, LatlimSup):
+
     principal = catalog["UFOSByLONG"]
     retorno = lt.newList()
 

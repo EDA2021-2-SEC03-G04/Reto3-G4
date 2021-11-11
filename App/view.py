@@ -25,6 +25,7 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+import time
 
 default_limit=1000
 sys.setrecursionlimit(default_limit*10)
@@ -173,6 +174,7 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = controller.init()
         print("\nCargando información de UFOS ....")
+        
         controller.loadData(catalog)
         print('Ciudades cargados: ' + str(controller.citiesSize(catalog)))
         print('Altura del arbol: ' + str(controller.indexHeight(catalog)))
@@ -184,9 +186,15 @@ while True:
     elif int(inputs[0]) == 2:
         
         printEspacio()
+        StartTime=time.process_time()
 
         ciudad = input("De que ciudad deseas buscar: ")
         retorno = controller.AvistamienCiudad(catalog,ciudad)
+        StopTime=time.process_time()
+        TimeMseg=(StopTime-StartTime)*1000
+        print()
+        print(f'El REQ1 tardó {TimeMseg} miliseg')
+        print()
         print()
         print()
         print('='*42 + ' RESPUESTA REQ 1 ' + '='*42)
@@ -203,7 +211,13 @@ while True:
 
         limInf = float(input("Cual es el limite inferior en segundos?: "))
         limSup = float(input("Cual es el limite superior en segundos?: "))
+        StartTime=time.process_time()
         retorno = controller.AvistamienDireccion(catalog, limInf, limSup)
+        StopTime=time.process_time()
+        TimeMseg=(StopTime-StartTime)*1000
+        print()
+        print(f'El REQ2 tardó {TimeMseg} miliseg')
+        print()
         print()
         print()
         print('='*42 + ' RESPUESTA REQ 2 ' + '='*42)
@@ -219,7 +233,13 @@ while True:
 
         liminf=input('Ingrese el limite inferior en formato HH:MM: ')
         limsup=input('Ingrese el límite superior en formateo HH:MM: ')
+        StartTime=time.process_time()
         size,Pequenos,Grandes=controller.AvistamientoHHMM(catalog,liminf,limsup)
+        StopTime=time.process_time()
+        TimeMseg=(StopTime-StartTime)*1000
+        print()
+        print(f'El REQ3 tardó {TimeMseg} miliseg')
+        print()
         print()
         print()
         print('='*42 + ' RESPUESTA REQ 3 ' + '='*42)
@@ -232,7 +252,13 @@ while True:
         printEspacio()
         liminf=input('Ingrese el limite inferior en formato AAAA-MM-DD: ')
         limsup=input('Ingrese el límite superior en formateo AAAA-MM-DD: ')
+        StartTime=time.process_time()
         oldestSize,oldestkey,size,Pequenos,Grandes=controller.AvistamientoDMA(catalog,liminf,limsup)
+        StopTime=time.process_time()
+        TimeMseg=(StopTime-StartTime)*1000
+        print()
+        print(f'El REQ4 tardó {TimeMseg} miliseg')
+        print()
         print()
         print()
         print('='*42 + ' RESPUESTA REQ 4 ' + '='*42)
@@ -248,8 +274,12 @@ while True:
         print()
         LatlimInf = float(input("Cual es el limite inferior de la latitud?: "))
         LatlimSup = float(input("Cual es el limite superior de la latitud?: "))
+        StartTime=time.process_time()
         retorno = controller.AvistamienCordenadas(catalog, LonglimInf, LonglimSup, LatlimInf, LatlimSup)
+        StopTime=time.process_time()
+        TimeMseg=(StopTime-StartTime)*1000
         print()
+        print(f'El REQ5 tardó {TimeMseg} miliseg')
         print()
         print('='*42 + ' RESPUESTA REQ 5 ' + '='*42)
         print()
